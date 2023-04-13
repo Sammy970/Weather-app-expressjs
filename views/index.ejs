@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body class="te">
+    <h1 class="my">Weather App using OpenWeatherAPI, Node.js, Express.js</h1>
+    <form id="myForm" action="/submit" method="POST" enctype="multipart/form-data">
+        <label for="cityName">City Name</label>
+        <input type="cityName" name="cityName" id="cityName" required>
+        <button type="submit">Submit</button>
+    </form>
+
+    <div id="api_data">
+
+    </div>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"
+        integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#myForm').submit(function (event) {
+                event.preventDefault();
+
+                const cityName = $("input").val();
+
+                const data = {
+                    'city': cityName
+                }
+
+                $.post('/submit', data, function (response) {
+                    console.log(response);
+                    $('#api_data').empty();
+                    $('#api_data').append(
+                        '<p>Temperature: ' + response.temp + '</p>',
+                        '<p>Pressure: ' + response.pres + '</p>',
+                        '<p>Humidity: ' + response.humidity + '</p>',
+                        '<img class="image" src="https://openweathermap.org/img/w/' + response.icon + '.png" > </img>',
+                        '<p>The weather is currently ' + response.desc + '</p>',
+                    )
+                })
+
+            })
+        })
+    </script>
+</body>
+
+</html>
